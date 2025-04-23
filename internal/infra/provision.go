@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/hetznercloud/hcloud-go/hcloud"
 )
@@ -35,4 +36,27 @@ func CreateComponent(name string, count int) error {
 
 	return nil
 
+}
+
+func instanceExists(ctx context.Context, client *hcloud.Client, name string) (bool, error) {
+	server, _, err := client.Server.GetByName(ctx, name)
+	if err != nil {
+		return false, err
+	}
+
+	return server != nil, nil
+
+}
+
+func resolveComponentConfig(name string) (ComponentConfig, error) {
+	normalized := strings.ToLower(name)
+	if normalized == "workers" {
+		normalized = "worker"
+	}
+
+	cfg, ok := ComponentDefaults[normalized]
+	if !ok {
+		return ComponentConfig{}, fmt.Errorf("unknown component: %s", name)
+	}
+	return cfg, nil
 }
