@@ -60,3 +60,24 @@ func resolveComponentConfig(name string) (ComponentConfig, error) {
 	}
 	return cfg, nil
 }
+
+func createServer(ctx context.Context, client *hcloud.Client, cfg ComponentConfig, name string) error {
+	opts := hcloud.ServerCreateOpts{
+		Name:             name,
+		ServerType:       &hcloud.ServerType{Name: cfg.ServerType},
+		Image:            &hcloud.Image{Name: cfg.Image},
+		Location:         &hcloud.Location{Name: cfg.Location},
+		SSHKeys:          []*hcloud.SSHKey{{Name: cfg.SSHKey}},
+		Labels:           cfg.Labels,
+		StartAfterCreate: hcloud.Ptr(true),
+	}
+
+	resp, _, err := client.Server.Create(ctx, opts)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("✅ Created %s (ID: %d, IP: %s)\n", name, resp.Server.Name, resp.Server.PublicNet.IPv4.IP)
+	return nil
+
+}
