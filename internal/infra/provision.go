@@ -15,7 +15,8 @@ func CreateComponent(name string, count int) error {
 		return err
 	}
 
-	client := hcloud.NewClient(hcloud.WithToken(os.Getenv("HCLOUD_TOKEN")))
+	token := os.Getenv("HCLOUD_TOKEN")
+	client := hcloud.NewClient(hcloud.WithToken(token))
 	ctx := context.Background()
 	instances := generateInstanceNames(name, count)
 
@@ -29,7 +30,7 @@ func CreateComponent(name string, count int) error {
 			continue
 		}
 
-		if err := createServer(); err != nil {
+		if err := createServer(ctx, client, cfg, name); err != nil {
 			return fmt.Errorf("failed to create %s: %w", instanceName, err)
 		}
 	}
