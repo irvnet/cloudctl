@@ -63,12 +63,22 @@ func resolveComponentConfig(name string) (ComponentConfig, error) {
 }
 
 func createServer(ctx context.Context, client *hcloud.Client, cfg ComponentConfig, name string) error {
+
+	key, _, err := client.SSHKey.GetByName(ctx, cfg.SSHKey)
+	if err != nil {
+		return fmt.Errorf("unable to find SSH key %q: %w", cfg.SSHKey, err)
+	}
+	if key == nil {
+		return fmt.Errorf("SSH key %q not found", cfg.SSHKey)
+	}
+
 	opts := hcloud.ServerCreateOpts{
-		Name:             name,
-		ServerType:       &hcloud.ServerType{Name: cfg.ServerType},
-		Image:            &hcloud.Image{Name: cfg.Image},
-		Location:         &hcloud.Location{Name: cfg.Location},
-		SSHKeys:          []*hcloud.SSHKey{{Name: cfg.SSHKey}},
+		Name:       name,
+		ServerType: &hcloud.ServerType{Name: cfg.ServerType},
+		Image:      &hcloud.Image{Name: cfg.Image},
+		Location:   &hcloud.Location{Name: cfg.Location},
+		//SSHKeys:          []*hcloud.SSHKey{{Name: cfg.SSHKey}},
+		SSHKeys:          []*hcloud.SSHKey{key},
 		Labels:           cfg.Labels,
 		StartAfterCreate: hcloud.Ptr(true),
 	}
