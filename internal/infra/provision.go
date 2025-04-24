@@ -23,14 +23,14 @@ func CreateComponent(name string, count int) error {
 	for _, instanceName := range instances {
 		exists, err := instanceExists(ctx, client, instanceName)
 		if err != nil {
-			return fmt.Errorf("failed to cehck instance existance %w", err)
+			return fmt.Errorf("failed to check instance existance %w", err)
 		}
 		if exists {
 			fmt.Printf("⚠️  %s already exists, skipping...\n", instanceName)
 			continue
 		}
 
-		if err := createServer(ctx, client, cfg, name); err != nil {
+		if err := createServer(ctx, client, cfg, instanceName); err != nil {
 			return fmt.Errorf("failed to create %s: %w", instanceName, err)
 		}
 	}
@@ -87,7 +87,7 @@ func createServer(ctx context.Context, client *hcloud.Client, cfg ComponentConfi
 		return err
 	}
 
-	fmt.Printf("✅ Created %s (ID: %d, IP: %s)\n", name, resp.Server.Name, resp.Server.PublicNet.IPv4.IP)
+	fmt.Printf("✅ Created %s (ID: %s, IP: %s)\n", name, resp.Server.Name, resp.Server.PublicNet.IPv4.IP)
 	return nil
 
 }
