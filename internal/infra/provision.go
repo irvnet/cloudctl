@@ -73,11 +73,10 @@ func createServer(ctx context.Context, client *hcloud.Client, cfg ComponentConfi
 	}
 
 	opts := hcloud.ServerCreateOpts{
-		Name:       name,
-		ServerType: &hcloud.ServerType{Name: cfg.ServerType},
-		Image:      &hcloud.Image{Name: cfg.Image},
-		Location:   &hcloud.Location{Name: cfg.Location},
-		//SSHKeys:          []*hcloud.SSHKey{{Name: cfg.SSHKey}},
+		Name:             name,
+		ServerType:       &hcloud.ServerType{Name: cfg.ServerType},
+		Image:            &hcloud.Image{Name: cfg.Image},
+		Location:         &hcloud.Location{Name: cfg.Location},
 		SSHKeys:          []*hcloud.SSHKey{key},
 		Labels:           cfg.Labels,
 		StartAfterCreate: hcloud.Ptr(true),
