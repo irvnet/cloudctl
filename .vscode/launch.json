@@ -10,11 +10,10 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "program": "${file}"
+            "program": "${workspaceFolder}/main.go",
+            "envFile": "${workspaceFolder}/.env"
             "args": [
-                "provision",
-                "vm",
-                "--name",
+                "create",
                 "devbox"
                 
             ],
