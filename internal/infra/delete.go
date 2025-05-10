@@ -25,12 +25,14 @@ func DeleteComponent(name string, count int) error {
 			continue
 		}
 
-		action, resp, err = client.Server.DeleteWithResult(ctx, server)
+		action, _, err := client.Server.DeleteWithResult(ctx, server)
 		if err != nil {
 			return fmt.Errorf("failed to delete %s: %w", instanceName, err)
 		}
 
-		fmt.Printf("🗑️  Deleted %s (ID: %d)\n", instanceName, server.ID)
+		fmt.Printf("🗑️  Deleted %s (ID: %d) | Action ID: %d | Command: %s | Status: %s\n",
+			instanceName, server.ID, action.Action.ID, action.Action.Command, action.Action.Status)
+
 	}
 
 	return nil
