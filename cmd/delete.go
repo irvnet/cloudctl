@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 
 	"github.com/spf13/cobra"
 )
@@ -15,6 +14,5 @@ var deleteCmd = &cobra.Command{
 }
 
 func init() {
-	fmt.Println("running delete init...")
 	rootCmd.AddCommand(deleteCmd)
 }
