@@ -1,7 +1,6 @@
 package infra
 
 import (
-	"cloudctl/bootstrap"
 	"context"
 	"fmt"
 	"os"
@@ -36,10 +35,10 @@ func CreateComponent(name string, count int) error {
 		}
 
 		// bootstrap provisioned server
-		err = bootstrap.EnsureBootstrapScriptExists(instanceName)
-		if err != nil {
-			fmt.Printf("[bootstrap] Warning: could not ensure bootstrap script: %v\n", err)
-		}
+		//err = bootstrap.EnsureBootstrapScriptExists(instanceName)
+		//if err != nil {
+		//	fmt.Printf("[bootstrap] Warning: could not ensure bootstrap script: %v\n", err)
+		//}
 
 	}
 
