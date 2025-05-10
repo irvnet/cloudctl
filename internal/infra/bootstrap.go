@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"os/exec"
 
 	"github.com/hetznercloud/hcloud-go/hcloud"
 )
@@ -35,4 +36,20 @@ func lookupPublicIP(name string) (string, error) {
 	}
 
 	return ip.String(), nil
+}
+
+func runScriptOverSSH(scriptPath, ip string) error {
+	fmt.Printf("[bootstrap] Running %s on %s\n", scriptPath, ip)
+	cmd := exec.Command("ssh", "-o", "StrictHostKeyChecking=no", fmt.Sprintf("root@%s", ip), "bash -s")
+	scriptFile, err := os.Open(scriptPath)
+	if err != nil {
+		return fmt.Errorf("failed to open script: %w", err)
+	}
+
+	defer scriptFile.Close()
+	cmd.Stdin = scriptFile
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	return cmd.Run()
 }
