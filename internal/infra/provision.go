@@ -87,6 +87,7 @@ func createServer(ctx context.Context, client *hcloud.Client, cfg ComponentConfi
 		SSHKeys:          []*hcloud.SSHKey{key},
 		Labels:           cfg.Labels,
 		StartAfterCreate: hcloud.Ptr(true),
+		UserData:         readUserDataFile(name),
 	}
 
 	resp, _, err := client.Server.Create(ctx, opts)
@@ -95,6 +96,18 @@ func createServer(ctx context.Context, client *hcloud.Client, cfg ComponentConfi
 	}
 
 	fmt.Printf("✅ Created %s (ID: %s, IP: %s)\n", name, resp.Server.Name, resp.Server.PublicNet.IPv4.IP)
+	fmt.Printf("🔐 Connect: ssh -i ~/.ssh/%s root@%s\n", cfg.SSHKey, resp.Server.PublicNet.IPv4.IP)
 	return nil
 
+}
+
+func readUserDataFile(name string) string {
+	path := fmt.Sprintf("bootstrap/scripts/bootstrap.%s.sh", name)
+	content, err := os.ReadFile(path)
+	if err != nil {
+		fmt.Printf("[bootstrap] script %s not found", path)
+		return ""
+	}
+
+	return string(content)
 }
