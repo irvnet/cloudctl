@@ -11,7 +11,7 @@ import (
 
 // validate bootstrap exists before attempting to run it
 func scriptExists(name string) (string, error) {
-	script := fmt.Sprintf("bootstrap.%s.sh", name)
+	script := fmt.Sprintf("bootstrap/scripts/bootstrap.%s.sh", name)
 	if _, err := os.Stat(script); os.IsNotExist(err) {
 		return "", fmt.Errorf("script not found: %s", script)
 	}
