@@ -96,6 +96,7 @@ func createServer(ctx context.Context, client *hcloud.Client, cfg ComponentConfi
 	}
 
 	fmt.Printf("✅ Created %s (ID: %s, IP: %s)\n", name, resp.Server.Name, resp.Server.PublicNet.IPv4.IP)
+	fmt.Printf("🔐 Connect: ssh -i ~/.ssh/%s root@%s\n", cfg.SSHKey, resp.Server.PublicNet.IPv4.IP)
 	return nil
 
 }
