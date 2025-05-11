@@ -53,3 +53,18 @@ func runScriptOverSSH(scriptPath, ip string) error {
 
 	return cmd.Run()
 }
+
+// RunBootstrapScript is the public entry point for bootstrapping a VM
+func RunBootstrapScript(name string) error {
+	scriptPath, err := scriptExists(name)
+	if err != nil {
+		return err
+	}
+
+	ip, err := lookupPublicIP(name)
+	if err != nil {
+		return err
+	}
+
+	return runScriptOverSSH(scriptPath, ip)
+}

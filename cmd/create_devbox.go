@@ -12,7 +12,11 @@ var createDevboxCmd = &cobra.Command{
 	Short: "Create a temp workstation",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if err := infra.CreateComponent("devbox", 1); err != nil {
-			return fmt.Errorf("devbox creation failed", err)
+			return fmt.Errorf("devbox creation failed: %w", err)
+		}
+
+		if err := infra.RunBootstrapScript("devbox"); err != nil {
+			return fmt.Errorf("bootstrap failed: %w", err)
 		}
 
 		fmt.Println("[cloudctl] Devbox created successfully")
