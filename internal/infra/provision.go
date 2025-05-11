@@ -87,6 +87,7 @@ func createServer(ctx context.Context, client *hcloud.Client, cfg ComponentConfi
 		SSHKeys:          []*hcloud.SSHKey{key},
 		Labels:           cfg.Labels,
 		StartAfterCreate: hcloud.Ptr(true),
+		UserData:         readUserDataFile(name),
 	}
 
 	resp, _, err := client.Server.Create(ctx, opts)
@@ -99,7 +100,7 @@ func createServer(ctx context.Context, client *hcloud.Client, cfg ComponentConfi
 
 }
 
-func readUserDataFie(name string) string {
+func readUserDataFile(name string) string {
 	path := fmt.Sprintf("bootstrap/scrips/bootstrap.%s.sh", name)
 	content, err := os.ReadFile(path)
 	if err != nil {
