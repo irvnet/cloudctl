@@ -1,9 +1,10 @@
-
+#!/bin/bash
+{
 echo 'running devbox bootstrap script...'
-echo '***************************'
-sudo apt-get update
-sudo apt-get upgrade -y
+echo '**********************************'
+apt-get update
+apt-get upgrade -y
 
-echo '***************************'
+echo '**********************************'
 echo '[✓] devbox bootstrap done...'
-
+} >> /var/log/bootstrap.log 2>&1

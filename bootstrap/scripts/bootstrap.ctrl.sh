@@ -1,9 +1,10 @@
+#!/bin/bash
+{
+echo 'running control plane bootstrap script...'
+echo '**********************************'
+apt-get update
+apt-get upgrade -y
 
-echo 'running ctrl node bootstrap script...'
-echo '***************************'
-sudo apt-get update
-sudo apt-get upgrade -y
-
-echo '***************************'
-echo '[✓] ctrl node bootstrap done...'
-
+echo '**********************************'
+echo '[✓] control plane bootstrapping  done...'
+} >> /var/log/bootstrap.log 2>&1
