@@ -98,3 +98,14 @@ func createServer(ctx context.Context, client *hcloud.Client, cfg ComponentConfi
 	return nil
 
 }
+
+func readUserDataFie(name string) string {
+	path := fmt.Sprintf("bootstrap/scrips/bootstrap.%s.sh", name)
+	content, err := os.ReadFile(path)
+	if err != nil {
+		fmt.Printf("[bootstrap] script %s not found", path)
+		return ""
+	}
+
+	return string(content)
+}
