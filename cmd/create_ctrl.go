@@ -15,10 +15,6 @@ var createCtrlCmd = &cobra.Command{
 			return fmt.Errorf("ctrl creation failed: %w", err)
 		}
 
-		//	if err := infra.RunBootstrapScript("ctrl"); err != nil {
-		//		return fmt.Errorf("bootstrap failed %w", err)
-		//	}
-
 		fmt.Println("[cloudctl] Control plane created.")
 		return nil
 	},

@@ -30,5 +30,4 @@ var createWorkersCmd = &cobra.Command{
 func init() {
 	createWorkersCmd.Flags().IntVar(&workerCount, "count", 1, "Num workers (1-3)")
 	createCmd.AddCommand(createWorkersCmd)
-
 }

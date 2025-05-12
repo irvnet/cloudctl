@@ -15,10 +15,6 @@ var createDevboxCmd = &cobra.Command{
 			return fmt.Errorf("devbox creation failed: %w", err)
 		}
 
-		//home	if err := infra.RunBootstrapScript("devbox"); err != nil {
-		//		return fmt.Errorf("bootstrap failed: %w", err)
-		//	}
-
 		fmt.Println("[cloudctl] Devbox created successfully")
 		return nil
 	},
